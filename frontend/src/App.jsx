@@ -1,13 +1,12 @@
 import { Routes, Route } from 'react-router-dom'
 import CandidateAuth from './cadidateAuth'
-import Home from './Home'
-
+import CompanyAuth from './companyAuth'
 const App = () => {
   return (
     <Routes>
       <Route path="/CandidateLogin" element={<CandidateAuth />} />
-      <Route path="/" element={<Home />} />
-      <Route path="/CompanyLogin" element={<CandidateAuth />} />
+      <Route path="/" element={<CandidateAuth />} />
+      <Route path="/CompanyLogin" element={<CompanyAuth />} />
     </Routes>
 
   )
