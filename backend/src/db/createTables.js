@@ -183,8 +183,9 @@ const createTables = async () => {
       CREATE TABLE IF NOT EXISTS candidate_embeddings (
         id BIGSERIAL PRIMARY KEY,
         candidate_id BIGINT REFERENCES candidates(id),
-        embedding VECTOR(384),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        embedding VECTOR(1536),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(candidate_id)
       );
     `);
 
@@ -193,8 +194,9 @@ const createTables = async () => {
       CREATE TABLE IF NOT EXISTS job_embeddings (
         id BIGSERIAL PRIMARY KEY,
         job_id BIGINT REFERENCES jobs(id),
-        embedding VECTOR(384),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        embedding VECTOR(1536),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(job_id)
       );
     `);
 
@@ -237,10 +239,6 @@ const createTables = async () => {
       ON job_embeddings
       USING ivfflat (embedding vector_cosine_ops);
     `);
-
-    await pool.query(`
-      ALTER TABLE users ADD COLUMN refresh_token TEXT;
-      `);
 
     console.log("updated tables successfully");
 

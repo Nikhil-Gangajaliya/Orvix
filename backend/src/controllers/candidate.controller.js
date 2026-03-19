@@ -3,6 +3,7 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { ApiError } from "../utils/ApiError.js";
 import { pool } from "../db/connectDB.js";
 import { getCompanyByIdService } from "../services/company.service.js";
+import { processResume } from "../services/resumeProccessor.js";
 
 const onboardCandidate = async (req, res, next) => {
   try {
@@ -30,9 +31,13 @@ const onboardCandidate = async (req, res, next) => {
       resume_url
     });
 
+    processResume(candidate.id, resume_url)
+      .catch(err => console.error("Background resume error:", err));
+
     res.status(200).json(
       new ApiResponse(200, candidate, "Candidate onboarded")
     );
+    
 
   } catch (err) {
     console.error("Onboard Candidate Error:", err);
@@ -91,7 +96,7 @@ const getCompanyForCandidate = async (req, res, next) => {
   }
 };
 
-export { 
+export {
   onboardCandidate,
   getCandidateProfile,
   getCompanyForCandidate
