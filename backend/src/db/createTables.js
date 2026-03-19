@@ -240,6 +240,14 @@ const createTables = async () => {
       USING ivfflat (embedding vector_cosine_ops);
     `);
 
+    await pool.query(`
+  CREATE TABLE IF NOT EXISTS candidate_embeddings (
+    id SERIAL PRIMARY KEY,
+    candidate_id INT UNIQUE REFERENCES candidates(id) ON DELETE CASCADE,
+    embedding vector(768)
+  );
+`);
+
     console.log("updated tables successfully");
 
   } catch (error) {
