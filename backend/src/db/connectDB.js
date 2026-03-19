@@ -17,7 +17,7 @@ const connectDB = async () => {
         console.log("PostgreSQL Connected");
 
         // 🔥 CREATE TABLES HERE
-        // await createTables();
+        await createTables();
 
     } catch (error) {
         console.error("DB Connection Error:", error);

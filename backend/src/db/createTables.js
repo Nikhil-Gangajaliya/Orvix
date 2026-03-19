@@ -180,13 +180,11 @@ const createTables = async () => {
 
     /* CANDIDATE EMBEDDINGS */
     await pool.query(`
-      CREATE TABLE IF NOT EXISTS candidate_embeddings (
-        id BIGSERIAL PRIMARY KEY,
-        candidate_id BIGINT REFERENCES candidates(id),
-        embedding VECTOR(1536),
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        UNIQUE(candidate_id)
-      );
+      CREATE TABLE candidate_embeddings (
+  id SERIAL PRIMARY KEY,
+  candidate_id INT UNIQUE REFERENCES candidates(id) ON DELETE CASCADE,
+  embedding vector(3072)
+);
     `);
 
     /* JOB EMBEDDINGS */
@@ -239,14 +237,6 @@ const createTables = async () => {
       ON job_embeddings
       USING ivfflat (embedding vector_cosine_ops);
     `);
-
-    await pool.query(`
-  CREATE TABLE IF NOT EXISTS candidate_embeddings (
-    id SERIAL PRIMARY KEY,
-    candidate_id INT UNIQUE REFERENCES candidates(id) ON DELETE CASCADE,
-    embedding vector(768)
-  );
-`);
 
     console.log("updated tables successfully");
 
