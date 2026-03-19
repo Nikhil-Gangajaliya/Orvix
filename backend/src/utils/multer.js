@@ -17,6 +17,7 @@ const fileFilter = (req, file, cb) => {
   const allowed = [
     "application/pdf",
     "image/png",
+    "image/jpg",
     "image/jpeg",
     "application/msword", // .doc
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document" // .docx
